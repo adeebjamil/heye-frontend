@@ -11,7 +11,7 @@ const EmployeeForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5000/employees', { name, position, email, mob })
+    axios.post('https://dash-backend-0hgr.onrender.com/employees', { name, position, email, mob })
       .then(response => {
         setMessage(response.data.message);
         setName('');

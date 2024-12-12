@@ -19,7 +19,7 @@ const ViewAttendance = () => {
   const fetchAttendanceRecords = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/attendance');
+      const response = await axios.get('https://dash-backend-0hgr.onrender.com/attendance');
       setAttendanceRecords(response.data || []);
     } catch (error) {
       setError('Failed to fetch attendance records');
@@ -38,7 +38,7 @@ const ViewAttendance = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/attendance/${id}`);
+      await axios.delete(`https://dash-backend-0hgr.onrender.com/attendance/${id}`);
       setAttendanceRecords(attendanceRecords.filter(record => record._id !== id));
     } catch (error) {
       console.error('Failed to delete attendance record', error);
@@ -49,7 +49,7 @@ const ViewAttendance = () => {
     e.preventDefault();
     try {
       const updatedRecord = { date, status, workDone };
-      await axios.put(`http://localhost:5000/attendance/${editingRecord._id}`, updatedRecord);
+      await axios.put(`https://dash-backend-0hgr.onrender.com/attendance/${editingRecord._id}`, updatedRecord);
       setAttendanceRecords(attendanceRecords.map(record => 
         record._id === editingRecord._id ? { ...record, ...updatedRecord } : record
       ));
