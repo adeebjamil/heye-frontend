@@ -8,6 +8,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const Home = () => {
   const [chartData, setChartData] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchAttendanceData();
@@ -15,13 +16,18 @@ const Home = () => {
 
   const fetchAttendanceData = async () => {
     try {
-      const response = await axios.get('https://dash-backend-0hgr.onrender.com/attendance');
+      const startTime = performance.now();
+      const response = await axios.get('http://localhost:5000/attendance');
       const attendanceData = response.data;
+      const endTime = performance.now();
+      console.log(`Data fetched in ${endTime - startTime} ms`);
 
       const weeklyData = getWeeklyData(attendanceData);
       setChartData(weeklyData);
     } catch (error) {
       console.error('Failed to fetch attendance data', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -134,12 +140,12 @@ const Home = () => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.4, duration: 0.5 }}
       >
-        {chartData.labels ? (
-          <Bar data={chartData} options={chartOptions} />
-        ) : (
+        {loading ? (
           <div className="flex justify-center items-center h-64">
             <div className="animate-pulse text-gray-400">Loading chart...</div>
           </div>
+        ) : (
+          <Bar data={chartData} options={chartOptions} />
         )}
       </motion.div>
     </motion.div>

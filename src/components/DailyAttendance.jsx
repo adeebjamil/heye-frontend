@@ -11,7 +11,7 @@ const DailyAttendance = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    axios.get('https://dash-backend-0hgr.onrender.com/employees')
+    axios.get('http://localhost:5000/employees')
       .then(response => setEmployees(response.data))
       .catch(error => console.error(error));
   }, []);
@@ -24,7 +24,7 @@ const DailyAttendance = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://dash-backend-0hgr.onrender.com/attendance', { employeeId: selectedEmployee._id, date, status, workDone })
+    axios.post('http://localhost:5000/attendance', { employeeId: selectedEmployee._id, date, status, workDone })
       .then(response => {
         setMessage(response.data.message);
         setDate('');
@@ -54,7 +54,6 @@ const DailyAttendance = () => {
       >
         Daily Attendance
       </motion.h1>
-
       <AnimatePresence>
         {message && (
           <motion.div
@@ -68,7 +67,6 @@ const DailyAttendance = () => {
           </motion.div>
         )}
       </AnimatePresence>
-
       <motion.div 
         initial={{ scale: 0.95 }}
         animate={{ scale: 1 }}
@@ -89,7 +87,6 @@ const DailyAttendance = () => {
             ))}
           </motion.select>
         </div>
-
         <AnimatePresence>
           {selectedEmployee && (
             <motion.div
@@ -107,7 +104,6 @@ const DailyAttendance = () => {
                   <p><strong>Mobile:</strong> {selectedEmployee.mob}</p>
                 </motion.div>
               </div>
-
               <motion.form 
                 onSubmit={handleSubmit}
                 className="bg-white shadow-lg rounded-xl px-8 pt-6 pb-8 mb-4"
@@ -126,7 +122,6 @@ const DailyAttendance = () => {
                     className="shadow-sm appearance-none border border-gray-200 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                   />
                 </motion.div>
-
                 <motion.div 
                   initial={{ x: -20, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
@@ -144,7 +139,6 @@ const DailyAttendance = () => {
                     <option value="Half Day">Half Day</option>
                   </select>
                 </motion.div>
-
                 <motion.div 
                   initial={{ x: -20, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
@@ -159,7 +153,6 @@ const DailyAttendance = () => {
                     placeholder="Enter work done today"
                   />
                 </motion.div>
-
                 <motion.div 
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}

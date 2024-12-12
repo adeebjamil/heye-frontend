@@ -12,7 +12,7 @@ const EmployeeList = () => {
 
   const fetchEmployees = async () => {
     try {
-      const response = await axios.get('https://dash-backend-0hgr.onrender.com/employees');
+      const response = await axios.get('http://localhost:5000/employees');
       setEmployees(response.data);
     } catch (error) {
       console.error('Failed to fetch employees', error);

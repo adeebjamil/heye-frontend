@@ -8,6 +8,7 @@ import ViewAttendance from './components/ViewAttendance';
 import CreateEmployee from './components/CreateEmployee';
 import ViewLeave from './components/ViewLeave';
 import EmployeeList from './components/EmployeeList';
+;
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="employee-leaves" element={<EmployeeLeaves />} />
           <Route path="view-attendance" element={<ViewAttendance />} />
           <Route path="view-leave" element={<ViewLeave />} />
+          <Route path="employee-list" element={<EmployeeList />} />
           <Route path="employee-list" element={<EmployeeList />} />
         </Route>
       </Routes>

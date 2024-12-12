@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const ViewAttendance = () => {
   const [attendanceRecords, setAttendanceRecords] = useState([]);
@@ -10,7 +10,7 @@ const ViewAttendance = () => {
   const [status, setStatus] = useState('');
   const [workDone, setWorkDone] = useState('');
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     fetchAttendanceRecords();
@@ -19,11 +19,11 @@ const ViewAttendance = () => {
   const fetchAttendanceRecords = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('https://dash-backend-0hgr.onrender.com/attendance');
+      const response = await axios.get('http://localhost:5000/attendance');
       setAttendanceRecords(response.data || []);
     } catch (error) {
-      setError('Failed to fetch attendance records');
-      console.error(error);
+      console.error('Error fetching attendance records:', error);
+      setErrorMessage('Failed to fetch attendance records');
     } finally {
       setLoading(false);
     }
@@ -37,19 +37,22 @@ const ViewAttendance = () => {
   };
 
   const handleDelete = async (id) => {
+    console.log(`Deleting record with id: ${id}`); // Log the id being deleted
     try {
-      await axios.delete(`https://dash-backend-0hgr.onrender.com/attendance/${id}`);
+      await axios.delete(`http://localhost:5000/attendance/${id}`);
       setAttendanceRecords(attendanceRecords.filter(record => record._id !== id));
     } catch (error) {
-      console.error('Failed to delete attendance record', error);
+      console.error('Error deleting attendance record:', error);
+      setErrorMessage('Failed to delete attendance record');
     }
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    console.log(`Updating record with id: ${editingRecord._id}`); // Log the id being updated
     try {
       const updatedRecord = { date, status, workDone };
-      await axios.put(`https://dash-backend-0hgr.onrender.com/attendance/${editingRecord._id}`, updatedRecord);
+      await axios.put(`http://localhost:5000/attendance/${editingRecord._id}`, updatedRecord);
       setAttendanceRecords(attendanceRecords.map(record => 
         record._id === editingRecord._id ? { ...record, ...updatedRecord } : record
       ));
@@ -58,7 +61,8 @@ const ViewAttendance = () => {
       setStatus('');
       setWorkDone('');
     } catch (error) {
-      console.error('Failed to update attendance record', error);
+      console.error('Error updating attendance record:', error);
+      setErrorMessage('Failed to update attendance record');
     }
   };
 
@@ -66,14 +70,6 @@ const ViewAttendance = () => {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-center p-4">
-        <p className="text-red-500">{error}</p>
       </div>
     );
   }
@@ -90,9 +86,23 @@ const ViewAttendance = () => {
         View Attendance Records
       </motion.h1>
 
+      <AnimatePresence>
+        {errorMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -50, scale: 0.3 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.5 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            className="mb-6 text-center p-4 rounded-lg bg-gradient-to-r from-red-500 to-pink-600 text-white flex items-center justify-center space-x-2"
+          >
+            <span>{errorMessage}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <motion.div 
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        initial={{ scale: 0.95 }}
+        animate={{ scale: 1 }}
         className="bg-white rounded-xl shadow-xl overflow-hidden"
       >
         <div className="overflow-x-auto">
@@ -153,7 +163,7 @@ const ViewAttendance = () => {
           animate={{ y: 0, opacity: 1 }}
           className="bg-white rounded-xl shadow-xl p-6 mt-8"
         >
-          <h2 className="text-2xl font-bold mb-4">Edit Attendance Record</h2>
+          <h2 className="text-2xl font-bold mb-4 text-center">Edit Attendance Record</h2>
           <form onSubmit={handleUpdate}>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">Date</label>
