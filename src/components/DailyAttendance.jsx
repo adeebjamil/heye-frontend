@@ -11,7 +11,7 @@ const DailyAttendance = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:5000/employees')
+    axios.get(`${import.meta.env.VITE_SERVER}/employees`)
       .then(response => setEmployees(response.data))
       .catch(error => console.error(error));
   }, []);
@@ -24,7 +24,7 @@ const DailyAttendance = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5000/attendance', { employeeId: selectedEmployee._id, date, status, workDone })
+    axios.post(`${import.meta.env.VITE_SERVER}/attendance`, { employeeId: selectedEmployee._id, date, status, workDone })
       .then(response => {
         setMessage(response.data.message);
         setDate('');

@@ -11,7 +11,7 @@ const EmployeeForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5000/employees', { name, position, email, mob })
+    axios.post(`${import.meta.env.VITE_SERVER}/employees`, { name, position, email, mob })
       .then(response => {
         setMessage(response.data.message);
         setName('');
@@ -28,13 +28,13 @@ const EmployeeForm = () => {
   const inputClasses = "shadow-sm appearance-none border border-gray-200 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ease-in-out";
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       className="container mx-auto p-4 max-w-md"
     >
-      <motion.h1 
+      <motion.h1
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
@@ -42,9 +42,9 @@ const EmployeeForm = () => {
       >
         Add Employee
       </motion.h1>
-      
+
       {message && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-4 text-center text-green-500"
@@ -53,14 +53,14 @@ const EmployeeForm = () => {
         </motion.div>
       )}
 
-      <motion.form 
+      <motion.form
         initial={{ scale: 0.95 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.4 }}
-        onSubmit={handleSubmit} 
+        onSubmit={handleSubmit}
         className="bg-white shadow-xl rounded-2xl px-8 pt-6 pb-8 mb-4 backdrop-blur-sm backdrop-filter"
       >
-        <motion.div 
+        <motion.div
           initial={{ x: -20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.5 }}
@@ -76,7 +76,7 @@ const EmployeeForm = () => {
           />
         </motion.div>
 
-        <motion.div 
+        <motion.div
           initial={{ x: -20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.6 }}
@@ -92,7 +92,7 @@ const EmployeeForm = () => {
           />
         </motion.div>
 
-        <motion.div 
+        <motion.div
           initial={{ x: -20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.7 }}
@@ -108,7 +108,7 @@ const EmployeeForm = () => {
           />
         </motion.div>
 
-        <motion.div 
+        <motion.div
           initial={{ x: -20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.8 }}
@@ -124,7 +124,7 @@ const EmployeeForm = () => {
           />
         </motion.div>
 
-        <motion.div 
+        <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.9 }}

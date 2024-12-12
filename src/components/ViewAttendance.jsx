@@ -19,7 +19,7 @@ const ViewAttendance = () => {
   const fetchAttendanceRecords = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/attendance');
+      const response = await axios.get(`${import.meta.env.VITE_SERVER}/attendance`);
       setAttendanceRecords(response.data || []);
     } catch (error) {
       console.error('Error fetching attendance records:', error);
@@ -39,7 +39,7 @@ const ViewAttendance = () => {
   const handleDelete = async (id) => {
     console.log(`Deleting record with id: ${id}`); // Log the id being deleted
     try {
-      await axios.delete(`http://localhost:5000/attendance/${id}`);
+      await axios.delete(`${import.meta.env.VITE_SERVER}/attendance/${id}`);
       setAttendanceRecords(attendanceRecords.filter(record => record._id !== id));
     } catch (error) {
       console.error('Error deleting attendance record:', error);
@@ -52,7 +52,7 @@ const ViewAttendance = () => {
     console.log(`Updating record with id: ${editingRecord._id}`); // Log the id being updated
     try {
       const updatedRecord = { date, status, workDone };
-      await axios.put(`http://localhost:5000/attendance/${editingRecord._id}`, updatedRecord);
+      await axios.put(`${import.meta.env.VITE_SERVER}/attendance/${editingRecord._id}`, updatedRecord);
       setAttendanceRecords(attendanceRecords.map(record => 
         record._id === editingRecord._id ? { ...record, ...updatedRecord } : record
       ));

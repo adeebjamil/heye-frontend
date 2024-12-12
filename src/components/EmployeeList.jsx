@@ -12,7 +12,7 @@ const EmployeeList = () => {
 
   const fetchEmployees = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/employees');
+      const response = await axios.get(`${import.meta.env.VITE_SERVER}/employees`);
       setEmployees(response.data);
     } catch (error) {
       console.error('Failed to fetch employees', error);

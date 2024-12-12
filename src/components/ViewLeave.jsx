@@ -20,7 +20,7 @@ const ViewLeave = () => {
   const fetchLeaveRecords = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/leaves');
+      const response = await axios.get(`${import.meta.env.VITE_SERVER}/leaves`);
       setLeaveRecords(response.data || []);
     } catch (error) {
       console.error(error);
@@ -40,7 +40,7 @@ const ViewLeave = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/leaves/${id}`);
+      await axios.delete(`${import.meta.env.VITE_SERVER}/leaves/${id}`);
       fetchLeaveRecords();
     } catch (error) {
       console.error(error);
@@ -51,7 +51,7 @@ const ViewLeave = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/leaves/${editingRecord._id}`, { startDate, endDate, reason, status });
+      await axios.put(`${import.meta.env.VITE_SERVER}/leaves/${editingRecord._id}`, { startDate, endDate, reason, status });
       setEditingRecord(null);
       fetchLeaveRecords();
     } catch (error) {

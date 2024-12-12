@@ -12,7 +12,7 @@ const EmployeeLeave = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:5000/employees')
+    axios.get(`${import.meta.env.VITE_SERVER}/employees`)
       .then(response => setEmployees(response.data))
       .catch(error => console.error(error));
   }, []);
@@ -25,7 +25,7 @@ const EmployeeLeave = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5000/leaves', { employeeId: selectedEmployee._id, startDate, endDate, reason, status })
+    axios.post(`${import.meta.env.VITE_SERVER}/leaves`, { employeeId: selectedEmployee._id, startDate, endDate, reason, status })
       .then(response => {
         setMessage(response.data.message);
         setStartDate('');

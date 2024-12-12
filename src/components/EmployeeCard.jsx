@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 const EmployeeCard = ({ employee, onDelete }) => {
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/employees/${employee._id}`);
+      await axios.delete(`${import.meta.env.VITE_SERVER}/employees/${employee._id}`);
       onDelete(employee._id);
     } catch (error) {
       console.error('Failed to delete employee', error);

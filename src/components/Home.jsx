@@ -17,7 +17,7 @@ const Home = () => {
   const fetchAttendanceData = async () => {
     try {
       const startTime = performance.now();
-      const response = await axios.get('http://localhost:5000/attendance');
+      const response = await axios.get(`${import.meta.env.VITE_SERVER}/attendance`)
       const attendanceData = response.data;
       const endTime = performance.now();
       console.log(`Data fetched in ${endTime - startTime} ms`);
@@ -37,8 +37,8 @@ const Home = () => {
 
     attendanceData.forEach(record => {
       const day = new Date(record.date).getDay();
-      if (day !== 0) { // Exclude Sunday
-        const index = day - 1; // Adjust index to match Monday to Saturday
+      if (day !== 0) {
+        const index = day - 1;
         if (record.status === 'Present') {
           weeklyData[index].present += 1;
         } else if (record.status === 'Absent') {
@@ -126,7 +126,7 @@ const Home = () => {
       transition={{ duration: 0.5 }}
       className="container mx-auto p-8 bg-white rounded-xl shadow-2xl"
     >
-      <motion.h1 
+      <motion.h1
         className="text-3xl font-bold mb-8 text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -134,7 +134,7 @@ const Home = () => {
       >
         Weekly Attendance Overview
       </motion.h1>
-      <motion.div 
+      <motion.div
         className="chart-container p-6 bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-inner"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
