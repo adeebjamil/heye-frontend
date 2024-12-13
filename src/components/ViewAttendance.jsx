@@ -66,6 +66,23 @@ const ViewAttendance = () => {
     }
   };
 
+  const handleDownloadPDF = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_SERVER}/attendance/download-attendance`, {
+        responseType: 'blob',
+      });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'attendance_records.pdf');
+      document.body.appendChild(link);
+      link.click();
+    } catch (error) {
+      console.error('Error downloading PDF:', error);
+      setErrorMessage('Failed to download PDF');
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -213,6 +230,15 @@ const ViewAttendance = () => {
           </form>
         </motion.div>
       )}
+
+      <div className="flex justify-center mt-8">
+        <button
+          onClick={handleDownloadPDF}
+          className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 shadow-lg hover:shadow-xl"
+        >
+          Download Attendance PDF
+        </button>
+      </div>
     </motion.div>
   );
 };

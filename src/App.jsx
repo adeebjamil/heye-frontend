@@ -8,6 +8,7 @@ import ViewAttendance from './components/ViewAttendance';
 import CreateEmployee from './components/CreateEmployee';
 import ViewLeave from './components/ViewLeave';
 import EmployeeList from './components/EmployeeList';
+import DownloadPage from './components/download';
 ;
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="view-leave" element={<ViewLeave />} />
           <Route path="employee-list" element={<EmployeeList />} />
           <Route path="employee-list" element={<EmployeeList />} />
+          <Route path="download" element={<DownloadPage />} />
         </Route>
       </Routes>
     </Router>
